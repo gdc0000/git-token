@@ -505,7 +505,7 @@ const App: React.FC = () => {
                         <Terminal className="h-5 w-5 text-background" />
                     </div>
                     <h1 className="text-lg font-bold tracking-tight">
-                        GitIngest
+                        GitToken
                     </h1>
                 </div>
                 <div className="flex items-center space-x-2">
