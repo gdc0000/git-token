@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini GitIngest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              // Custom aliases to map to Shadcn-like Zinc theme
+              border: '#27272a', // zinc-800
+              input: '#27272a', // zinc-800
+              ring: '#d4d4d8', // zinc-300
+              background: '#09090b', // zinc-950
+              foreground: '#fafafa', // zinc-50
+              primary: {
+                DEFAULT: '#fafafa', // zinc-50
+                foreground: '#18181b', // zinc-900
+              },
+              secondary: {
+                DEFAULT: '#27272a', // zinc-800
+                foreground: '#fafafa', // zinc-50
+              },
+              destructive: {
+                DEFAULT: '#7f1d1d', // red-900
+                foreground: '#fef2f2', // red-50
+              },
+              muted: {
+                DEFAULT: '#27272a', // zinc-800
+                foreground: '#a1a1aa', // zinc-400
+              },
+              accent: {
+                DEFAULT: '#27272a', // zinc-800
+                foreground: '#fafafa', // zinc-50
+              },
+              card: {
+                DEFAULT: '#09090b', // zinc-950 (or zinc-900 for contrast)
+                foreground: '#fafafa', // zinc-50
+              },
+            },
+            borderRadius: {
+              lg: '0.5rem',
+              md: 'calc(0.5rem - 2px)',
+              sm: 'calc(0.5rem - 4px)',
+            },
+          }
+        },
+      }
+    </script>
+    <style>
+      body {
+        background-color: #09090b;
+        color: #fafafa;
+        font-family: 'Inter', sans-serif;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #09090b; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46; 
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
