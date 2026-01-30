@@ -373,6 +373,19 @@ const App: React.FC = () => {
                     const results = await Promise.all(batch.map(async (file) => {
                         try {
                             const content = await ghService.getFileContent(details.owner, details.name, file.sha);
+
+                            // Parse Jupyter Notebooks if applicable
+                            if (file.name.endsWith('.ipynb')) {
+                                try {
+                                    const json = JSON.parse(content);
+                                    const { parseNotebook } = await import('./utils/notebook');
+                                    return { path: file.path, content: parseNotebook(json) };
+                                } catch (e) {
+                                    console.error(`Error parsing notebook ${file.path}:`, e);
+                                    return { path: file.path, content }; // Fallback to raw content
+                                }
+                            }
+
                             return { path: file.path, content };
                         } catch (e) {
                             return { path: file.path, content: "// Error fetching content" };
