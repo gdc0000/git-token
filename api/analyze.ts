@@ -27,7 +27,7 @@ export default async function handler(req: any, res: any) {
     }
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    const modelId = 'gemini-2.5-flash-lite';
+    const modelId = 'gemini-2.0-flash-lite';
 
     // Calculate relevance score for a file based on query
     const calculateRelevance = (file: FileNode, queryTerms: string[]): number => {
@@ -45,7 +45,7 @@ export default async function handler(req: any, res: any) {
 
         // 2. Filename Exact Match (High relevance)
         if (fileName.includes(term)) score += 20;
-        
+
         // 3. Path Match (Medium relevance)
         if (filePath.includes(term)) score += 10;
 
@@ -60,7 +60,7 @@ export default async function handler(req: any, res: any) {
 
     const selectRelevantFiles = (files: FileNode[], query: string): { file: FileNode; score: number }[] => {
       const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 0);
-      
+
       // If query is very short/generic, prioritize root files
       if (terms.length === 0) {
         return files.slice(0, 10).map(f => ({ file: f, score: 0 }));
@@ -75,8 +75,8 @@ export default async function handler(req: any, res: any) {
       scoredFiles.sort((a, b) => b.score - a.score);
 
       // Dynamic threshold: Include top files, but at least top 5, max 20
-      const topFiles = scoredFiles.slice(0, 20); 
-      
+      const topFiles = scoredFiles.slice(0, 20);
+
       return topFiles;
     };
 
@@ -86,7 +86,7 @@ export default async function handler(req: any, res: any) {
 
     // 2. Build Context String from selected files
     let context = `Directory Structure:\n${treeStructure}\n\n`;
-    
+
     if (relevantFilesData.length > 0) {
       context += `Selected Relevant Files for Context:\n`;
       relevantFilesData.forEach(({ file }) => {
@@ -120,7 +120,7 @@ Be concise, technical, and accurate. Use Markdown for code blocks.`;
     const augmentedPrompt = `[Context Data]\n${context}\n\n[User Question]\n${userPrompt}`;
 
     const result = await chat.sendMessage({ message: augmentedPrompt });
-    
+
     return res.status(200).json({
       text: result.text || "No response generated.",
       relevantFiles: relevantFilesData.map(d => ({ path: d.file.path, score: d.score }))
@@ -128,8 +128,8 @@ Be concise, technical, and accurate. Use Markdown for code blocks.`;
 
   } catch (error: any) {
     console.error("Gemini API Error:", error);
-    return res.status(500).json({ 
-      error: `Error: ${error.message || "Unknown error occurred"}` 
+    return res.status(500).json({
+      error: `Error: ${error.message || "Unknown error occurred"}`
     });
   }
 }
