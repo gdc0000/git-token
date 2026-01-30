@@ -17,7 +17,13 @@ export class GeminiService {
     history: ChatMessage[] = []
   ): Promise<{ text: string; relevantFiles: RelevantFile[] }> {
 
-    // Try to use the API endpoint first (works in production/Vercel)
+    // If we have a local API key, we use the client-side SDK directly.
+    // This honors the user's preference to use their own key entered in the UI.
+    if (this.apiKey) {
+      return this.executeClientSide(files, treeStructure, userPrompt, history);
+    }
+
+    // Otherwise, try to use the API endpoint (which uses the server-side environment key)
     try {
       const response = await fetch('/api/analyze', {
         method: 'POST',
@@ -36,26 +42,22 @@ export class GeminiService {
         const result = await response.json();
         return result;
       }
-
-      // If we get a 404, we are likely in local development without Vercel runtime
-      if (response.status !== 404) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
     } catch (error: any) {
-      if (error instanceof TypeError && error.message.includes('fetch')) {
-        // Continue to fallback
-      } else if (!error.message.includes('404')) {
-        console.error("API Error:", error);
-      }
+      console.error("API Error:", error);
     }
 
-    // Fallback: Direct SDK call (useful for local development)
-    if (!this.apiKey) {
-      return {
-        text: "Error: GEMINI_API_KEY is not configured and the backend API is unavailable.",
-        relevantFiles: []
-      };
-    }
+    return {
+      text: "Error: No API key provided and server-side analysis failed.",
+      relevantFiles: []
+    };
+  }
+
+  private async executeClientSide(
+    files: FileNode[],
+    treeStructure: string,
+    userPrompt: string,
+    history: ChatMessage[] = []
+  ): Promise<{ text: string; relevantFiles: RelevantFile[] }> {
 
     try {
       const ai = new GoogleGenAI({ apiKey: this.apiKey });
