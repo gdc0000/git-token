@@ -1,7 +1,7 @@
 # GitToken
 **Transform GitHub repositories into AI-ready context**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fgemini-gitingest)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fgit-token)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 </div>
@@ -30,7 +30,7 @@ GitToken is a powerful web application that converts GitHub repositories into op
 1. **Clone and install dependencies:**
    ```bash
    git clone <your-repo-url>
-   cd gemini-gitingest
+   cd git-token
    npm install
    ```
 
@@ -102,7 +102,7 @@ npm run preview
 
 ### 1. **Ingest a Repository**
 - Enter a GitHub repository URL or `owner/repo` format
-- GitIngest will fetch the repository structure and file metadata
+- GitToken will fetch the repository structure and file metadata
 - Files are automatically analyzed for relevance scoring
 
 ### 2. **Select Files**
@@ -118,14 +118,14 @@ npm run preview
 
 ### 4. **Chat with AI**
 - Toggle the chat panel to ask questions about the codebase
-- GitIngest intelligently selects relevant files based on your query
+- GitToken intelligently selects relevant files based on your query
 - Get context-aware responses with source file references
 - View relevance scores for used files
 
 ## 🧠 How It Works
 
 ### Relevance Algorithm
-GitIngest uses a sophisticated relevance scoring system:
+GitToken uses a sophisticated relevance scoring system:
 
 1. **Filename Matching** (+20 points) - Exact matches in file names
 2. **Path Matching** (+10 points) - Matches in file paths  
@@ -153,7 +153,7 @@ GitIngest uses a sophisticated relevance scoring system:
 ## 📁 Project Structure
 
 ```
-gemini-gitingest/
+git-token/
 ├── components/          # React components
 │   ├── FileTree.tsx    # File tree explorer
 │   ├── RepoInput.tsx   # Repository input form
@@ -197,7 +197,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/yourusername/gemini-gitingest/issues) page
+1. Check the [Issues](https://github.com/yourusername/git-token/issues) page
 2. Create a new issue with detailed information
 3. Join our community discussions
 
