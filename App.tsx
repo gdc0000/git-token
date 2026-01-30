@@ -237,6 +237,24 @@ const App: React.FC = () => {
         return output;
     }, [hasSelectedChildren]);
 
+    const handleReset = useCallback(() => {
+        setRepoDetails(null);
+        setFileTree([]);
+        setFlattenedFiles([]);
+        setTreeDigest('');
+        setFilesDigest('');
+        setFullDigest('');
+        setChatHistory([]);
+        setShowChat(false);
+        setError(null);
+        setLoadingStatus('');
+        setProgress(0);
+        setIsLoading(false);
+        setChatInput('');
+        setIsChatLoading(false);
+        setIsTreeView(true);
+    }, []);
+
     const handleIngest = async (owner: string, repo: string) => {
         setIsLoading(true);
         setError(null);
@@ -495,16 +513,17 @@ const App: React.FC = () => {
         }
     };
 
+
     return (
         <div className="h-screen bg-background text-foreground font-sans flex flex-col overflow-hidden">
             {/* Header */}
             <header className="border-b border-border bg-background/95 backdrop-blur z-50 flex-none h-14">
                 <div className="container mx-auto max-w-7xl px-4 h-full flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                        <div className="h-8 w-8 bg-foreground rounded-lg flex items-center justify-center">
+                    <div className="flex items-center space-x-2 cursor-pointer group" onClick={handleReset}>
+                        <div className="h-8 w-8 bg-foreground rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors">
                             <Terminal className="h-5 w-5 text-background" />
                         </div>
-                        <h1 className="text-lg font-bold tracking-tight">
+                        <h1 className="text-lg font-bold tracking-tight group-hover:text-primary transition-colors">
                             GitToken
                         </h1>
                     </div>
@@ -685,12 +704,12 @@ const App: React.FC = () => {
 
                                                 <div className="flex items-center gap-2">
                                                     <button
-                                                        onClick={generateDigest}
+                                                        onClick={handleReset}
                                                         disabled={isLoading}
                                                         className="inline-flex items-center justify-center rounded-md text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-8 px-2"
                                                     >
                                                         <RefreshCw className={`h-3.5 w-3.5 mr-1.5 ${isLoading ? 'animate-spin' : ''}`} />
-                                                        Refresh
+                                                        Reset
                                                     </button>
                                                     <button
                                                         onClick={() => handleCopy(treeDigest)}
@@ -771,10 +790,10 @@ const App: React.FC = () => {
                                 <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                                     <div
                                         className={`max-w-[90%] rounded-lg px-3 py-2 text-sm shadow-sm ${msg.role === 'user'
-                                                ? 'bg-primary text-primary-foreground'
-                                                : msg.isError
-                                                    ? 'bg-destructive/10 text-destructive border border-destructive/20'
-                                                    : 'bg-muted/50 text-foreground border border-border'
+                                            ? 'bg-primary text-primary-foreground'
+                                            : msg.isError
+                                                ? 'bg-destructive/10 text-destructive border border-destructive/20'
+                                                : 'bg-muted/50 text-foreground border border-border'
                                             }`}
                                     >
                                         {msg.role === 'model' ? (
