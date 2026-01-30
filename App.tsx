@@ -8,6 +8,9 @@ import { FileNode, RepoDetails, ProcessingStats, ChatMessage, RelevantFile, View
 import { Copy, Download, Settings, Bot, Terminal, FileText, Sparkles, FileCode, Search, RefreshCw, FolderTree, AlertCircle, X, Loader2, Send, PanelRightClose, PanelRightOpen, PanelRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { GEMINI_MODEL } from './constants';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
+
 
 // --- Interactive Source Panel Component (Styled as Hover Card) ---
 const SourceVisualization: React.FC<{ files?: RelevantFile[] }> = ({ files }) => {
@@ -127,6 +130,100 @@ const App: React.FC = () => {
             setGeminiService(null);
         }
     }, []);
+
+    const startTutorial = useCallback(() => {
+        const driverObj = driver({
+            showProgress: true,
+            animate: true,
+            overlayColor: 'rgba(0,0,0,0.4)',
+            steps: [
+                {
+                    element: '#header-logo',
+                    popover: {
+                        title: 'Welcome to GitToken!',
+                        description: 'Your premium tool to transform codebases into AI-ready context. Let\'s see how it works.',
+                        side: "bottom",
+                        align: 'start'
+                    }
+                },
+                {
+                    element: '#settings-button',
+                    popover: {
+                        title: '1. API Settings',
+                        description: 'First things first! Add your Gemini and GitHub API keys here to unlock the full potential of the app.',
+                        side: "bottom",
+                        align: 'end'
+                    }
+                },
+                {
+                    element: '#repo-input-container',
+                    popover: {
+                        title: '2. Ingest Repository',
+                        description: 'Now you\'re ready! Paste a GitHub URL here to fetch the codebase and start analyzing.',
+                        side: "bottom",
+                        align: 'center'
+                    }
+                }
+            ]
+        });
+
+        // Add conditional steps if repo is loaded
+        if (repoDetails) {
+            driverObj.setSteps([
+                ...driverObj.getConfig().steps || [],
+                {
+                    element: '#extension-filters',
+                    popover: {
+                        title: 'Smart Filtering',
+                        description: 'Toggle file types to quickly include or exclude code from your digest.',
+                        side: "right",
+                        align: 'start'
+                    }
+                },
+                {
+                    element: '#directory-panel',
+                    popover: {
+                        title: 'Interactive Directory',
+                        description: 'Select individual files or folders. Only checked files will be included in the context.',
+                        side: "left",
+                        align: 'start'
+                    }
+                },
+                {
+                    element: '#action-buttons',
+                    popover: {
+                        title: 'Export Context',
+                        description: 'Copy the entire codebase digest or download it as a file. Perfect for pasting into ChatGPT/Claude.',
+                        side: "top",
+                        align: 'center'
+                    }
+                },
+                {
+                    element: '#chat-button',
+                    popover: {
+                        title: 'Ask the AI',
+                        description: 'Launch the Chat Assistant to talk directly with your codebase using Google Gemini.',
+                        side: "bottom",
+                        align: 'end'
+                    }
+                }
+            ]);
+        }
+
+        driverObj.drive();
+    }, [repoDetails]);
+
+    useEffect(() => {
+        const hasSeenTutorial = localStorage.getItem('hasSeenTutorial');
+        if (!hasSeenTutorial) {
+            // Small delay to ensure everything is rendered
+            const timer = setTimeout(() => {
+                startTutorial();
+                localStorage.setItem('hasSeenTutorial', 'true');
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [startTutorial]);
 
     useEffect(() => {
         if (chatScrollRef.current) {
@@ -519,7 +616,7 @@ const App: React.FC = () => {
             {/* Header */}
             <header className="border-b border-border bg-background/95 backdrop-blur z-50 flex-none h-14">
                 <div className="container mx-auto max-w-7xl px-4 h-full flex items-center justify-between">
-                    <div className="flex items-center space-x-2 cursor-pointer group" onClick={handleReset}>
+                    <div className="flex items-center space-x-2 cursor-pointer group" onClick={handleReset} id="header-logo">
                         <div className="h-8 w-8 bg-foreground rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors">
                             <Terminal className="h-5 w-5 text-background" />
                         </div>
@@ -528,8 +625,17 @@ const App: React.FC = () => {
                         </h1>
                     </div>
                     <div className="flex items-center space-x-2">
+                        <button
+                            onClick={startTutorial}
+                            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground h-9 px-3 mr-2"
+                            title="Help Tutorial"
+                        >
+                            <Sparkles className="h-4 w-4 mr-2 text-primary" />
+                            Guide
+                        </button>
                         {repoDetails && (
                             <button
+                                id="chat-button"
                                 onClick={() => setShowChat(!showChat)}
                                 className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 px-3 ${showChat ? 'bg-secondary text-secondary-foreground' : 'hover:bg-accent hover:text-accent-foreground'}`}
                             >
@@ -538,6 +644,7 @@ const App: React.FC = () => {
                             </button>
                         )}
                         <button
+                            id="settings-button"
                             onClick={() => setShowSettings(true)}
                             className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground h-9 w-9"
                         >
@@ -563,7 +670,9 @@ const App: React.FC = () => {
                                 <p className="text-muted-foreground mb-8 max-w-md">
                                     Transform GitHub repositories into token-optimized prompts for Large Language Models.
                                 </p>
-                                <RepoInput onIngest={handleIngest} isLoading={isLoading} />
+                                <div id="repo-input-container" className="w-full max-w-lg">
+                                    <RepoInput onIngest={handleIngest} isLoading={isLoading} />
+                                </div>
 
                                 {error && (
                                     <div className="mt-6 p-4 rounded-lg bg-destructive/10 text-destructive border border-destructive/20 flex items-start text-sm text-left max-w-md w-full">
@@ -630,7 +739,7 @@ const App: React.FC = () => {
                                                     >
                                                         <Copy className="h-4 w-4 mr-2" /> Copy Tree (Markdown)
                                                     </button>
-                                                    <div className="flex gap-2">
+                                                    <div className="flex gap-2" id="action-buttons">
                                                         <button
                                                             onClick={handleDownload}
                                                             className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 flex-1"
@@ -650,7 +759,7 @@ const App: React.FC = () => {
 
                                         {/* Extension Filter Card */}
                                         {extensionStats.length > 0 && (
-                                            <div className="rounded-lg border border-border bg-card text-card-foreground shadow-sm">
+                                            <div id="extension-filters" className="rounded-lg border border-border bg-card text-card-foreground shadow-sm">
                                                 <div className="p-6">
                                                     <p className="text-xs font-medium text-muted-foreground uppercase mb-3">Filter by Type</p>
                                                     <div className="flex flex-wrap gap-2">
@@ -678,7 +787,7 @@ const App: React.FC = () => {
                                     </div>
 
                                     {/* Directory Panel */}
-                                    <div className="lg:col-span-8 flex flex-col space-y-4">
+                                    <div className="lg:col-span-8 flex flex-col space-y-4" id="directory-panel">
                                         <div
                                             className="rounded-lg border border-border bg-card text-card-foreground shadow-sm flex flex-col overflow-hidden transition-all duration-300"
                                             style={{ height: directoryPanelHeight ? `${directoryPanelHeight}px` : '600px' }}
