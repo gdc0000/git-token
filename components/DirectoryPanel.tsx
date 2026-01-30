@@ -32,7 +32,10 @@ export const DirectoryPanel: React.FC<DirectoryPanelProps> = ({
         <div className="lg:col-span-8 flex flex-col space-y-4" id="directory-panel">
             <div
                 className="rounded-lg border border-border bg-card text-card-foreground shadow-sm flex flex-col overflow-hidden transition-all duration-300"
-                style={{ height: directoryPanelHeight ? `${directoryPanelHeight}px` : '600px' }}
+                style={{
+                    height: directoryPanelHeight ? `${directoryPanelHeight}px` : 'auto',
+                    minHeight: directoryPanelHeight ? '0' : '500px'
+                }}
             >
                 <div className="flex flex-row items-center justify-between space-y-0 p-4 border-b border-border">
                     <div className="flex items-center gap-2">

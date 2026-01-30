@@ -32,20 +32,20 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="flex items-center space-x-2">
                     <button
                         onClick={startTutorial}
-                        className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground h-9 px-3 mr-2"
+                        className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground h-9 px-2 sm:px-3 mr-1 sm:mr-2"
                         title="Help Tutorial"
                     >
-                        <Sparkles className="h-4 w-4 mr-2 text-primary" />
-                        Guide
+                        <Sparkles className="h-4 w-4 sm:mr-2 text-primary" />
+                        <span className="hidden sm:inline">Guide</span>
                     </button>
                     {repoDetails && (
                         <button
                             id="chat-button"
                             onClick={() => setShowChat(!showChat)}
-                            className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 px-3 ${showChat ? 'bg-secondary text-secondary-foreground' : 'hover:bg-accent hover:text-accent-foreground'}`}
+                            className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 px-2 sm:px-3 ${showChat ? 'bg-secondary text-secondary-foreground' : 'hover:bg-accent hover:text-accent-foreground'}`}
                         >
-                            <Bot className="h-4 w-4 mr-2" />
-                            {showChat ? 'Close Chat' : 'Chat'}
+                            <Bot className="h-4 w-4 sm:mr-2" />
+                            <span className="hidden sm:inline">{showChat ? 'Close Chat' : 'Chat'}</span>
                         </button>
                     )}
                     <button

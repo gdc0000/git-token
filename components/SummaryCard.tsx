@@ -47,12 +47,14 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({
                     >
                         <Copy className="h-4 w-4 mr-2" /> Copy Tree (Markdown)
                     </button>
-                    <div className="flex gap-2" id="action-buttons">
+                    <div className="flex flex-col sm:flex-row gap-2" id="action-buttons">
                         <button
                             onClick={handleDownload}
                             className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 flex-1"
                         >
-                            <Download className="h-4 w-4 mr-2" /> Download
+                            <Download className="h-4 w-4 mr-2" />
+                            <span className="inline sm:hidden lg:inline">Download</span>
+                            <span className="hidden sm:inline lg:hidden">DL</span>
                         </button>
                         <button
                             onClick={handleCopyFullDigest}

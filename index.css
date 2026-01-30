@@ -1,15 +1,15 @@
 /* Driver.js Custom Styling - Premium Dark Mode */
 
 .driver-popover {
-  background-color: rgba(9, 9, 11, 0.9) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(18, 18, 20, 0.98) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 16px !important;
   color: #fafafa !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
   padding: 24px !important;
-  max-width: 320px !important;
+  max-width: 340px !important;
   font-family: 'Inter', sans-serif !important;
 }
 
@@ -17,7 +17,7 @@
   color: #fafafa !important;
   font-size: 18px !important;
   font-weight: 700 !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
   line-height: 1.2 !important;
 }
 
@@ -25,17 +25,17 @@
   color: #a1a1aa !important;
   font-size: 14px !important;
   line-height: 1.6 !important;
-  margin-bottom: 16px !important;
+  margin-bottom: 20px !important;
 }
 
 .driver-popover-arrow {
-  border-color: rgba(9, 9, 11, 0.9) !important;
+  border-color: rgba(18, 18, 20, 0.98) !important;
 }
 
 .driver-popover-navigation-btns {
   display: flex !important;
-  gap: 8px !important;
-  margin-top: 16px !important;
+  gap: 10px !important;
+  justify-content: flex-end !important;
 }
 
 .driver-popover-next-btn,
@@ -46,10 +46,11 @@
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 8px !important;
   padding: 8px 16px !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
   font-weight: 600 !important;
   transition: all 0.2s ease !important;
   text-shadow: none !important;
+  cursor: pointer !important;
 }
 
 .driver-popover-next-btn {
@@ -58,7 +59,7 @@
 }
 
 .driver-popover-next-btn:hover {
-  background-color: #e4e4e7 !important;
+  background-color: #ffffff !important;
   transform: translateY(-1px);
 }
 
@@ -69,20 +70,56 @@
 
 .driver-popover-progress-text {
   color: #71717a !important;
-  font-size: 11px !important;
+  font-size: 12px !important;
   font-weight: 500 !important;
+  margin-right: auto !important;
 }
 
 /* Overlay styling */
 .driver-overlay {
-  background-color: rgba(0, 0, 0, 0.4) !important;
-  /* Lighter overlay */
-  backdrop-filter: none !important;
-  /* Remove blur to keep background sharp */
+  background-color: rgba(9, 9, 11, 0.4) !important;
 }
 
 .driver-active-element {
   outline: 2px solid #fafafa !important;
   outline-offset: 4px;
-  border-radius: 8px !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* Mobile Responsiveness for Tutorial */
+@media (max-width: 640px) {
+  .driver-popover {
+    max-width: calc(100vw - 40px) !important;
+    padding: 20px !important;
+    margin: 0 20px !important;
+  }
+
+  .driver-popover-title {
+    font-size: 16px !important;
+  }
+
+  .driver-popover-description {
+    font-size: 13px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Force popovers to bottom on mobile to avoid overlapping fixed headers */
+  .driver-popover-arrow {
+    display: none !important;
+  }
+}
+
+/* Global Responsive Tweaks */
+.container {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px !important;
+  }
 }

@@ -77,10 +77,12 @@ const App: React.FC = () => {
 
     // --- Tutorial Logic ---
     const startTutorial = useCallback(() => {
+        const isMobile = window.innerWidth < 1024;
+
         const driverObj = driver({
             showProgress: true,
             animate: true,
-            overlayColor: 'rgba(0,0,0,0.4)',
+            overlayColor: 'rgba(0,0,0,0.5)',
             steps: [
                 {
                     element: '#header-logo',
@@ -88,7 +90,7 @@ const App: React.FC = () => {
                         title: 'Welcome to GitToken!',
                         description: 'Your premium tool to transform codebases into AI-ready context. Let\'s see how it works.',
                         side: "bottom",
-                        align: 'start'
+                        align: isMobile ? 'center' : 'start'
                     }
                 },
                 {
@@ -97,7 +99,7 @@ const App: React.FC = () => {
                         title: '1. API Settings',
                         description: 'First things first! Add your Gemini and GitHub API keys here to unlock the full potential of the app.',
                         side: "bottom",
-                        align: 'end'
+                        align: isMobile ? 'center' : 'end'
                     }
                 },
                 {
@@ -120,8 +122,8 @@ const App: React.FC = () => {
                     popover: {
                         title: 'Smart Filtering',
                         description: 'Toggle file types to quickly include or exclude code from your digest.',
-                        side: "right",
-                        align: 'start'
+                        side: isMobile ? "bottom" : "right",
+                        align: isMobile ? 'center' : 'start'
                     }
                 },
                 {
@@ -129,8 +131,8 @@ const App: React.FC = () => {
                     popover: {
                         title: 'Interactive Directory',
                         description: 'Select individual files or folders. Only checked files will be included in the context.',
-                        side: "left",
-                        align: 'start'
+                        side: isMobile ? "top" : "left",
+                        align: isMobile ? 'center' : 'start'
                     }
                 },
                 {
@@ -141,7 +143,8 @@ const App: React.FC = () => {
                         side: "top",
                         align: 'center'
                     }
-                },
+                }
+                ,
                 {
                     element: '#chat-button',
                     popover: {
