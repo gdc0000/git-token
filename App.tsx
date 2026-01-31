@@ -458,7 +458,7 @@ const App: React.FC = () => {
                         {!repoDetails ? (
                             <div className="flex flex-col items-center justify-center py-24 text-center animate-in fade-in slide-in-from-bottom-8 duration-500">
                                 <h2 className="text-4xl font-bold tracking-tight mb-4">Codebase to Context</h2>
-                                <p className="text-muted-foreground mb-8 max-w-md">Transform GitHub repositories into token-optimized prompts for LLMs.</p>
+                                <p className="text-muted-foreground mb-8 max-w-md">Transform GitHub repositories into token-optimized prompts for LLMs, and chat with them using Gemini.</p>
                                 <div id="repo-input-container" className="w-full max-w-lg">
                                     <RepoInput onIngest={handleIngest} isLoading={isLoading} />
                                 </div>
