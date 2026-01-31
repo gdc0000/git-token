@@ -1,5 +1,5 @@
 {
-  "name": "Gemini GitToken",
+  "name": "GitToken",
   "description": "Turn any GitHub repository into a prompt-friendly text digest for LLMs. Fetch code, filter files, and chat with your codebase using Gemini 2.0 Flash Lite large context window.",
   "requestFramePermissions": []
 }
